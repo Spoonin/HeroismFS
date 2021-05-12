@@ -7,4 +7,5 @@ type Hero = {
     Name : string
     PictureSrc : string
     Level : int
+    Hand : Card list
 }
