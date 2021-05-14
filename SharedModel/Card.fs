@@ -1,4 +1,4 @@
-module SharedModels
+namespace SharedModels
 
 open System
 
