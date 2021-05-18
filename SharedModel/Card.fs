@@ -8,6 +8,11 @@ type Card = {
     Quantity : uint
 }
 
+type UnitFeature = 
+| Walker of ability : UnitAbility
+| Shooter of UnitAbility * shootAttack : uint
+| Flier of UnitAbility * returnsAfterHit : bool
+
 type Unit = {
     Feature: UnitFeature
     Name : string
@@ -18,9 +23,3 @@ type UnitAbility = {
     Steps : uint
     Attack : uint
 }
-
-
-type UnitFeature = 
-| Walker of ability : UnitAbility
-| Shooter of UnitAbility * shootAttack : uint
-| Flier of UnitAbility * returnsAfterHit : bool
