@@ -18,6 +18,6 @@ type HeroActions = {
     available : Async<Hero list>
     own : Async<Hero list>
     hire : HeroId -> Async<Hero option>
-    remove : HeroId -> Async<unit>
+    remove : HeroId -> Async<unit> 
     get : HeroId -> Async<Hero option>
 }

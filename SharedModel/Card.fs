@@ -8,18 +8,23 @@ type Card = {
     Quantity : uint
 }
 
+type UnitAbility = {
+    Steps : uint
+    Attack : uint
+}
+
+[< StructuralComparison; StructuralEquality >]
 type UnitFeature = 
 | Walker of ability : UnitAbility
 | Shooter of UnitAbility * shootAttack : uint
 | Flier of UnitAbility * returnsAfterHit : bool
 
+type UnitId = string
+
+
 type Unit = {
-    Feature: UnitFeature
+    Id : UnitId
+    Feature : UnitFeature
     Name : string
     PictureSrc : string
-}
-
-type UnitAbility = {
-    Steps : uint
-    Attack : uint
 }
