@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="SharedModel/Card.fs" />
+    <Compile Include="SharedModel/Board.fs" />
+    <Compile Include="SharedModel/Hero.fs" />
+    <Compile Include="SharedModel/User.fs" />
+    <Compile Include="Startup.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>
