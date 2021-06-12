@@ -10,6 +10,10 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Configuration
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
+open SharedModels
+open Fable.Remoting.Server
+open Fable.Remoting.AspNetCore
+
 
 module Program =
     let createHostBuilder args =
