@@ -1,72 +1,62 @@
 module App
 
-type Model =
-    {
-        downloaded: Result<string, string>
-    }
-    with
-        static member createDefault () = { downloaded = Ok "Nothing was downloaded yet" }
+open Feliz
+open Elmish
+open SharedModels
+
+type State = { ActiveUsers: Deferred<Result<User list, string>> }
 
 type Msg =
-    | OnDownloadClicked
-    | ResetClicked
-    | OnDownloadedSuccess of string
-    | OnDownloadedFail of exn
+    | LoadActiveUsers of AsyncOperationStatus<Result<User list, string>>
 
-open Fable.Core
+let init() = { ActiveUsers = HasNotStartedYet }, Cmd.ofMsg (LoadActiveUsers Started)
 
-[<Emit("Math.random()")>]
-let getRandom(): float = jsNative
-    
-let downloadAsync path = async {
-    do! Async.Sleep(1000) // emulate work
-    
-    let networkEmulated =
-        if (getRandom () * 100.) > 50. then
-            sprintf "Path: %s. Data: from network!" path
-        else
-            raise (System.Exception("Network error!"))
-            
-    return networkEmulated
-}    
-    
-open Elmish
+let update (msg: Msg) (state: State) =
+    match msg with
+    | LoadActiveUsers Started ->
+        let loadActiveUsers = async {
+            try
+                let! users = Server.api.getActivePlayers()
+                return LoadActiveUsers (Finished (Ok users))
+            with error ->
+                Log.developmentError error
+                return LoadActiveUsers (Finished (Error "Error while retrieving Counter from server"))
+        }
+        { state with ActiveUsers = InProgress }, Cmd.fromAsync loadActiveUsers
+    | LoadActiveUsers (Finished users) ->
+        { state with ActiveUsers = Resolved users }, Cmd.none
 
-let init () =
-    Model.createDefault (), Cmd.none
-    
-let update message model =
-    match message with
-    | OnDownloadClicked ->
-        model, Cmd.OfAsync.either downloadAsync "/randomData" OnDownloadedSuccess OnDownloadedFail
-    | OnDownloadedSuccess data ->
-        { model with downloaded = Ok data }, Cmd.none
-    | OnDownloadedFail ex ->
-        { model with downloaded = Error ex.Message }, Cmd.none
-    | ResetClicked ->
-        Model.createDefault (), Cmd.none
+let renderUsers (users: Deferred<Result<User list, string>>)=
+    match users with
+    | HasNotStartedYet -> Html.none
+    | InProgress -> Html.h1 "Loading..."
+    | Resolved (Ok users) -> Html.ol (List.map (fun (user: User) -> Html.li user.Id) users)
+    | Resolved (Error errorMsg) ->
+        Html.h1 [
+            prop.style [ style.color.crimson ]
+            prop.text errorMsg
+        ]
 
-open Fable.React
-open Fable.React.Props
-        
-let view (model: Model) dispatch =
-   let resultView =
-       match model.downloaded with
-       | Ok r ->
-           h3 [ Style [CSSProp.Color "blue"] ] [ str r ]
-       | Error er ->
-           h3 [ Style [CSSProp.Color "red"] ] [ str er ]
-   
-   div [] [
-       h1 [] [ str "React Elmish demo" ]
-       
-       button [ OnClick (fun _ -> dispatch OnDownloadClicked) ] [ str "Download" ]
-       button [ OnClick (fun _ -> dispatch ResetClicked) ] [ str "Reset" ]
-       div [] [ h2 [] [ str "Download result:" ]; resultView ]
-   ]
-   
-open Elmish.React
-        
-Program.mkProgram init update view
-|> Program.withReactSynchronous "elmish-app"
-|> Program.run
+let fableLogo() = StaticFile.import "./imgs/fable_logo.png"
+
+let render (state: State) (dispatch: Msg -> unit) =
+
+    Html.div [
+        prop.style [
+            style.textAlign.center
+            style.padding 40
+        ]
+
+        prop.children [
+
+            Html.img [
+                prop.src(fableLogo())
+                prop.width 250
+            ]
+
+            Html.h1 "Heroism"
+
+
+            renderUsers state.ActiveUsers
+        ]
+    ]

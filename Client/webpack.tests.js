@@ -5,7 +5,7 @@
 // See below if you need better fine-tuning of Webpack options
 
 // Dependencies. Also required: core-js, fable-loader, fable-compiler, @babel/core,
-// @babel/preset-env, babel-loader, sass, sass-loader, css-loader, style-loader, file-loader
+// @babel/preset-env, babel-loader
 var path = require("path");
 var webpack = require("webpack");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -16,25 +16,19 @@ const Dotenv = require('dotenv-webpack');
 var CONFIG = {
     // The tags to include the generated JS and CSS will be automatically injected in the HTML template
     // See https://github.com/jantimon/html-webpack-plugin
-    indexHtmlTemplate: "./src/index.html",
-    fsharpEntry: "./src/Client.fsproj",
-    cssEntry: "./src/styles/main.scss",
+    indexHtmlTemplate: "./tests/index.html",
+    fsharpEntry: "./tests/Client.Tests.fsproj",
     outputDir: "./dist",
     assetsDir: "./public",
-    devServerPort: 8080,
+    devServerPort: 8085,
     // When using webpack-dev-server, you may need to redirect some calls
     // to a external API server. See https://webpack.js.org/configuration/dev-server/#devserver-proxy
-    devServerProxy: {
-        '/**': {
-            // assuming the suave server is running on port 8083
-            target: "http://localhost:5000",
-            changeOrigin: true
-        }
-    },
+    devServerProxy: undefined,
     // Use babel-preset-env to generate JS compatible with most-used browsers.
     // More info at https://babeljs.io/docs/en/next/babel-preset-env.html
     babel: {
         presets: [
+            // In case interop is used with React/Jsx components, this React preset would be required
             ["@babel/preset-react"],
             ["@babel/preset-env", {
                 "targets": "> 0.25%, not dead",
@@ -70,12 +64,9 @@ var commonPlugins = [
 module.exports = {
     // In development, bundle styles together with the code so they can also
     // trigger hot reloads. In production, put them in a separate CSS file.
-    entry: isProduction ? {
-        app: [resolve(CONFIG.fsharpEntry), resolve(CONFIG.cssEntry)]
-    } : {
-            app: [resolve(CONFIG.fsharpEntry)],
-            style: [resolve(CONFIG.cssEntry)]
-        },
+    entry: {
+        app: [resolve(CONFIG.fsharpEntry)]
+    },
     // Add a hash to the output file name in production
     // to prevent browser caching if code changes
     output: {
@@ -97,25 +88,14 @@ module.exports = {
             }
         },
     },
-    // Besides the HtmlPlugin, we use the following plugins:
-    // PRODUCTION
-    //      - MiniCssExtractPlugin: Extracts CSS from bundle to a different file
-    //          To minify CSS, see https://github.com/webpack-contrib/mini-css-extract-plugin#minimizing-for-production
-    //      - CopyWebpackPlugin: Copies static assets to output directory
-    // DEVELOPMENT
-    //      - HotModuleReplacementPlugin: Enables hot reloading when code changes without refreshing
-    plugins: isProduction ?
-        commonPlugins.concat([
-            new MiniCssExtractPlugin({ filename: 'style.css' }),
-            new CopyWebpackPlugin({
-                patterns: [
-                    { from: resolve(CONFIG.assetsDir) }
-                ]
-            }),
-        ])
-        : commonPlugins.concat([
-            new webpack.HotModuleReplacementPlugin(),
-        ]),
+    plugins: commonPlugins.concat([
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: resolve(CONFIG.assetsDir) }
+            ]
+        }),
+    ]),
+
     resolve: {
         // See https://github.com/fable-compiler/Fable/issues/1490
         symlinks: false,
@@ -156,7 +136,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: CONFIG.babel
-                },
+                }
             },
             {
                 test: /\.(sass|scss|css)$/,
