@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="./Utils.fs" />
     <Compile Include="./Card.fs" />
     <Compile Include="./Board.fs" />
     <Compile Include="./Hero.fs" />

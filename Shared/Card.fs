@@ -2,12 +2,6 @@ namespace SharedModels
 
 open System
 
-type Card = {
-    Id : string
-    Unit : Unit
-    Quantity : uint
-}
-
 type UnitAbility = {
     Steps : uint
     Attack : uint
@@ -27,4 +21,10 @@ type Unit = {
     Feature : UnitFeature
     Name : string
     PictureSrc : string
+}
+
+type Card = {
+    Id : string
+    Unit : Unit
+    Quantity : uint
 }
