@@ -1,6 +1,7 @@
 namespace SharedModels
 
 open System
+open Cards
 open Utils
 
 module GamePlay =

@@ -1,23 +1,17 @@
 namespace SharedModels
 
-open System
+open GamePlay
 
-type HeroId = string
+module Heroes = 
 
-type Hero = {
-    Id : HeroId
-    Name : string
-    PictureSrc : string
-    Level : uint
-    CurrentBoard : Board option
-    UnitPool : Map<Unit, uint>
-    CardPicks : uint
-}
+    type HeroId = string
 
-type HeroActions = {
-    available : Async<Hero list>
-    own : Async<Hero list>
-    hire : HeroId -> Async<Hero option>
-    remove : HeroId -> Async<unit> 
-    get : HeroId -> Async<Hero option>
-}
+    type Hero = {
+        Id: HeroId
+        Name: string
+        PictureSrc: string
+        Level: uint
+        CurrentBoard: Board option
+        UnitPool: Map<Unit, uint>
+        CardPicks: uint
+    }

@@ -3,6 +3,7 @@ module App
 open Feliz
 open Elmish
 open SharedModels
+open Users
 
 type State = { ActiveUsers: Deferred<Result<User list, string>> }
 
@@ -16,7 +17,7 @@ let update (msg: Msg) (state: State) =
     | LoadActiveUsers Started ->
         let loadActiveUsers = async {
             try
-                let! users = Server.api.getActivePlayers()
+                let! users = Server.api.GetActivePlayers()
                 return LoadActiveUsers (Finished (Ok users))
             with error ->
                 Log.developmentError error

@@ -5,7 +5,7 @@ open SharedModels
 module Server =
 
     let server: IHeroismApi = {
-        getActivePlayers = fun () ->
+        GetActivePlayers = fun () ->
             async {
                 return [
                     { Id = "player1@email.com"; Heroes = [] }

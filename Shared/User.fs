@@ -1,8 +1,10 @@
 namespace SharedModels
 
-open System
+open Heroes
 
-type User = {
-    Id : string
-    Heroes : Hero list
-}
+module Users =
+
+    type User = {
+        Id : string
+        Heroes : Hero list
+    }
