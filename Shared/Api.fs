@@ -12,7 +12,11 @@ type HeroActions = {
     Remove : HeroId -> Async<unit> 
 }
 
-type IHeroismApi = {
+type UserActions = {
     GetActivePlayers: unit -> Async<User list>
-    // HeroActions: HeroActions // TODO
+}
+
+type IHeroismApi = {
+    User: UserActions
+    // Hero: HeroActions // TODO
 }

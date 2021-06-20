@@ -17,7 +17,7 @@ let update (msg: Msg) (state: State) =
     | LoadActiveUsers Started ->
         let loadActiveUsers = async {
             try
-                let! users = Server.api.GetActivePlayers()
+                let! users = Server.api.User.GetActivePlayers()
                 return LoadActiveUsers (Finished (Ok users))
             with error ->
                 Log.developmentError error
