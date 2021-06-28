@@ -1,6 +1,6 @@
 namespace SharedModels
 
-open GamePlay
+open Boards
 
 module Heroes = 
 

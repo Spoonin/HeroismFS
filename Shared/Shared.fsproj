@@ -10,6 +10,7 @@
     <Compile Include="./Board.fs" />
     <Compile Include="./Hero.fs" />
     <Compile Include="./User.fs" />
+    <Compile Include="./Battle.fs" />
     <Compile Include="./Api.fs" />
   </ItemGroup>
 

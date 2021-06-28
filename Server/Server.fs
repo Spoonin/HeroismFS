@@ -13,4 +13,11 @@ module Server =
                 ]
             }
         }
+
+        Battle = {
+            PlaceCard = fun heroId column card -> 
+                async {
+                    return hero.C
+                }  
+        }
     }
