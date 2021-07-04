@@ -2,19 +2,14 @@ namespace SharedModels
 
 module Cards =
 
-    type UnitAbility = {
-        Health: uint
-        Attack : uint
-    }
-
     [<Literal>] 
     let FarShootAttackDistance = 4u
 
     [< StructuralComparison; StructuralEquality >]
     type UnitFeature = 
-    | Walker of ability : UnitAbility
-    | Shooter of UnitAbility * shootAttack : uint * farShootAttack: uint
-    | Flier of UnitAbility // * returnsAfterHit : bool
+    | Walker
+    | Flier
+    | Shooter of shootAttack : uint * farShootAttack: uint
 
     type UnitId = string
 
@@ -24,10 +19,16 @@ module Cards =
         Feature : UnitFeature
         Name : string
         PictureSrc : string
+        Health: uint
+        Attack : uint
     }
 
     type Card = {
-        Id : string
         Unit : Unit
         CommonHealth: uint
+    }
+
+    let card unit quantity = {
+        Unit = unit
+        CommonHealth = quantity * unit.Health
     }

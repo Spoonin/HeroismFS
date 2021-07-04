@@ -14,13 +14,13 @@ module GamePlay =
         if damage >= targetCard.CommonHealth then None else Some {targetCard with CommonHealth = targetCard.CommonHealth - damage}
 
     let private damageTarget (attackerCard: Card) (targetCard: Card) (distance: uint) = 
+        let {Attack = attack; Health = healthByUnit} = attackerCard.Unit
         match attackerCard.Unit.Feature with
-        | Flier {Attack = attack; Health = healthByUnit} 
-        | Walker {Attack = attack; Health = healthByUnit} ->
+        | Flier | Walker ->
             if distance = 1u 
             then applyDamage ((quantity attackerCard.CommonHealth healthByUnit) * attack) targetCard |> Ok
             else Error "Invalid move - Target is too far"
-        | Shooter ({Attack = attack; Health = healthByUnit}, shootAttack, farShootAttack) ->
+        | Shooter (shootAttack, farShootAttack) ->
             if distance = 1u
             then applyDamage ((quantity attackerCard.CommonHealth healthByUnit) * attack) targetCard |> Ok
             else if distance < FarShootAttackDistance then applyDamage ((quantity attackerCard.CommonHealth healthByUnit) * shootAttack) targetCard |> Ok
