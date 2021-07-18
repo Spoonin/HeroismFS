@@ -1,5 +1,5 @@
 namespace SharedModels
-
+open Games
 open Boards
 
 module Heroes = 
@@ -11,7 +11,6 @@ module Heroes =
         Name: string
         PictureSrc: string
         Level: uint
-        CurrentBoard: Board option
+        CurrentGame: (Game * PlayerSide)  option
         UnitPool: Map<Unit, uint>
-        CardPicks: uint
     }

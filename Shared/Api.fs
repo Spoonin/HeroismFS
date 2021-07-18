@@ -4,6 +4,7 @@ open Users
 open Cards
 open Heroes
 open Boards
+open Games
 
 
 type HeroActions = {
@@ -16,11 +17,14 @@ type HeroActions = {
 
 type UserActions = {
     GetActivePlayers: unit -> Async<User list>
+    FindPlayers: string -> Async<User list>
 }
 
 type BattleActions = {
+    GetGame: HeroId -> Async<Game>
     PlaceCard: HeroId -> Column -> Card -> Async<Board>
-    DoMove: Hero -> Cell -> Cell -> Async<Board>
+    SetReady: HeroId -> Async<Game>
+    DoMove: HeroId -> Cell -> Cell -> Async<Board>
 }
 
 type IHeroismApi = {

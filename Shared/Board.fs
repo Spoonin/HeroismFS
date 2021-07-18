@@ -18,4 +18,6 @@ module Boards =
 
     type Board = Map<Cell, GameCard option>
 
+    type BoardStatus = { EvenReady: bool; OddReady: bool }
+
     

@@ -5,6 +5,8 @@ open Cards
 open Boards
 
 module Battle = 
+
+
     type MoveType = | Reposition | Attack
 
     type Move = {
