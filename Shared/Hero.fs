@@ -1,6 +1,5 @@
-namespace SharedModels
+namespace Heroism.Shared
 open Games
-open Boards
 
 module Heroes = 
 

@@ -1,4 +1,4 @@
-namespace SharedModels
+namespace Heroism.Shared
 
 open Cards
 

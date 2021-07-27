@@ -1,7 +1,7 @@
-namespace HeroismFS
+namespace Heroism.Server
 
 open System
-open SharedModels
+open Heroism.Shared
 open Cards
 open Boards
 open Battle

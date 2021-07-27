@@ -2,7 +2,7 @@ module App
 
 open Feliz
 open Elmish
-open SharedModels
+open Heroism.Shared
 open Users
 
 type State = { ActiveUsers: Deferred<Result<User list, string>> }

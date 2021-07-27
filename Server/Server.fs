@@ -1,6 +1,6 @@
-namespace HeroismFS
+namespace Heroism.Server
 
-open SharedModels
+open Heroism.Shared
 
 module Server =
 
@@ -15,9 +15,9 @@ module Server =
         }
 
         Battle = {
-            PlaceCard = fun heroId column card -> 
+            PlaceCard = fun (heroId: HeroId) (column: Column) (unit: Unit, quantity: uint) -> 
                 async {
-                    return hero.C
+                    
                 }  
         }
     }

@@ -1,7 +1,7 @@
 ﻿module Server
 
 open Fable.Remoting.Client
-open SharedModels
+open Heroism.Shared
 
 
 let api =

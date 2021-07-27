@@ -1,4 +1,4 @@
-namespace HeroismFS
+namespace Heroism.Server
 
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
